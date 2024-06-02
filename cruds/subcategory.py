@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import select
 from schemas.subcategory import SubCategoryCreate, SubCategoryUpdate
 from models import SubCategory
 
@@ -6,17 +7,18 @@ from models import SubCategory
 def find_all(db: Session):
     return db.query(SubCategory).all()
 
+def find_all_in_category(db: Session, category_id: int):
+    query = select(SubCategory).where(SubCategory.category_id == category_id)
+    return db.execute(query).scalars().all()
 
 def find_by_id(db: Session, id: int, user_id: int):
     return db.query(SubCategory).filter(SubCategory.id == id).filter(SubCategory.user_id == user_id).first()
 
-
 def find_by_name(db: Session, name: str):
     return db.query(SubCategory).filter(SubCategory.name.like(f"%{name}%")).all()
 
-
-def create(db: Session, subcategory_create: SubCategoryCreate, user_id: int, category_id: int):
-    new_subcategory = SubCategory(**subcategory_create.model_dump(), user_id=user_id)
+def create(db: Session, subcategory_create: SubCategoryCreate, category_id: int):
+    new_subcategory = SubCategory(**subcategory_create.model_dump(), category_id=category_id)
     db.add(new_subcategory)
     db.commit()
     return new_subcategory

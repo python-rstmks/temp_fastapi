@@ -29,6 +29,9 @@ async def find_by_id(db: DbDependency, user: UserDependency, id: int = Path(gt=0
         raise HTTPException(status_code=404, detail="SubCategory not found")
     return found_item
 
+@router.get("/categories/{category_id}", response_model=list[SubCategoryResponse], status_code=status.HTTP_200_OK)
+async def find_all_in_category(db: DbDependency, user:UserDependency, category_id: int = Path(gt=0)):
+    return subcategory_cruds.find_all_in_category(db, category_id)
 
 @router.get("/", response_model=list[SubCategoryResponse], status_code=status.HTTP_200_OK)
 async def find_by_name(
@@ -37,9 +40,10 @@ async def find_by_name(
     return subcategory_cruds.find_by_name(db, name)
 
 
-@router.post("", response_model=SubCategoryResponse, status_code=status.HTTP_201_CREATED)
-async def create(db: DbDependency, user: UserDependency, item_create: SubCategoryCreate):
-    return subcategory_cruds.create(db, item_create, user.user_id)
+@router.post("{category_id}", response_model=SubCategoryResponse, status_code=status.HTTP_201_CREATED)
+# async def create(db: DbDependency, category_id: int, user: UserDependency, subcategory_create: SubCategoryCreate):
+async def create(db: DbDependency, category_id: int, subcategory_create: SubCategoryCreate):
+    return subcategory_cruds.create(db, subcategory_create, category_id)
 
 
 @router.put("/{id}", response_model=SubCategoryResponse, status_code=status.HTTP_200_OK)
