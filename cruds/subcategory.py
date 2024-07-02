@@ -11,14 +11,17 @@ def find_all_in_category(db: Session, category_id: int):
     query = select(SubCategory).where(SubCategory.category_id == category_id)
     return db.execute(query).scalars().all()
 
-def find_by_id(db: Session, id: int, user_id: int):
-    return db.query(SubCategory).filter(SubCategory.id == id).filter(SubCategory.user_id == user_id).first()
+def find_by_id(db: Session, id: int):
+    # return db.query(SubCategory).filter(SubCategory.id == id).filter(SubCategory.user_id == user_id).first()
+    pass
 
 def find_by_name(db: Session, name: str):
     return db.query(SubCategory).filter(SubCategory.name.like(f"%{name}%")).all()
 
 def create(db: Session, subcategory_create: SubCategoryCreate, category_id: int):
     new_subcategory = SubCategory(**subcategory_create.model_dump(), category_id=category_id)
+    print(new_subcategory)
+    print(54321)
     db.add(new_subcategory)
     db.commit()
     return new_subcategory

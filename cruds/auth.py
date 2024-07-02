@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 from schemas import auth
 from models import User
 from config import get_settings
+from sqlalchemy import select
 
 
 ALGORITHM = "HS256"
@@ -33,6 +34,13 @@ def create_user(db: Session, user_create: auth.UserCreate):
     db.commit()
 
     return new_user
+
+def check_user_already_exists(db: Session, user_create: auth.UserCreate):
+    query = select(User).where(User.username == user_create.username)
+    user = db.execute(query).scalars().first()
+    if user:
+        return True
+    return False
 
 
 def authenticate_user(db: Session, username: str, password: str):

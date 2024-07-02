@@ -34,30 +34,43 @@ from pydantic import BaseModel, Field, ConfigDict
 
 #     model_config = ConfigDict(from_attributes=True)
     
+class CategoryCreate(BaseModel):
+    name: str = Field(min_length = 1, max_length= 20, examples=["Math"])
+    user_id: int = Field(gt=0, examples=[1])
+    
+class CategoryResponse(BaseModel):
+    id: int = Field(gt=0, examples=[1])
+    name: str = Field(min_length = 1, max_length= 20, examples=["Math"])
+    created_at: datetime
+    updated_at: datetime
+    user_id: int = Field(gt=0, examples=[1])
+
+    model_config = ConfigDict(from_attributes=True)
+
 class SubCategoryCreate(BaseModel):
     name: str = Field(min_length = 1, max_length= 20, examples=["g PCA"])
-
+    category_id: int = Field(gt=0, examples=[1])
 
 # class UserCreate(BaseModel):
 #     username: str = Field(min_length=2, examples=["user1"])
 #     password: str = Field(min_length=8, examples=["test1234"])
 
 
-# class UserResponse(BaseModel):
-#     id: int = Field(gt=0, examples=[1])
-#     username: str = Field(min_length=2, examples=["user1"])
-#     created_at: datetime
-#     updated_at: datetime
+class UserResponse(BaseModel):
+    id: int = Field(gt=0, examples=[1])
+    username: str = Field(min_length=2, examples=["user1"])
+    created_at: datetime
+    updated_at: datetime
 
-#     model_config = ConfigDict(from_attributes=True)
-
-
-# class Token(BaseModel):
-#     access_token: str
-#     token_type: str
+    model_config = ConfigDict(from_attributes=True)
 
 
-# class DecodedToken(BaseModel):
-#     username: str
-#     user_id: int
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class DecodedToken(BaseModel):
+    username: str
+    user_id: int
 

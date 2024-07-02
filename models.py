@@ -22,6 +22,8 @@ class Item(Base):
 
     user = relationship("User", back_populates="items")
     
+# =================================================================================================
+    
 class Category(Base):
     __tablename__ = "categories"
 

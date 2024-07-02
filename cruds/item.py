@@ -20,6 +20,8 @@ def find_by_name(db: Session, name: str):
 
 def create(db: Session, item_create: item.ItemCreate, user_id: int):
     new_item = Item(**item_create.model_dump(), user_id=user_id)
+    print(item_create.model_dump())
+    print("sakamotosora")
     db.add(new_item)
     db.commit()
     return new_item
