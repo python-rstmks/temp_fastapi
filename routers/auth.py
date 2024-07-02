@@ -20,6 +20,8 @@ FormDependency = Annotated[OAuth2PasswordRequestForm, Depends()]
     "/signup", response_model=UserResponse, status_code=status.HTTP_201_CREATED
 )
 async def create_user(db: DbDependency, user_create: UserCreate):
+    if auth_cruds.check_user_already_exists(db, user_create):
+        raise HTTPException(status_code=400, detail="User already exists")
     return auth_cruds.create_user(db, user_create)
 
 

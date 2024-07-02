@@ -37,6 +37,8 @@ async def find_by_name(
 
 
 @router.post("", response_model=CategoryResponse, status_code=status.HTTP_201_CREATED)
-async def create(db: DbDependency, user: UserDependency, category_create: CategoryCreate):
-    return category_curds.create(db, category_create, user.user_id)
+# async def create(db: DbDependency, user: UserDependency, category_create: CategoryCreate):
+async def create(db: DbDependency, category_create: CategoryCreate):
+    # return category_curds.create(db, category_create, user.user_id)
+    return category_curds.create(db, category_create)
 

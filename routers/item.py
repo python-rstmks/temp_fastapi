@@ -39,6 +39,8 @@ async def find_by_name(
 
 @router.post("", response_model=ItemResponse, status_code=status.HTTP_201_CREATED)
 async def create(db: DbDependency, user: UserDependency, item_create: ItemCreate):
+    print(item_create)
+    print("sakamotosora")
     return item_cruds.create(db, item_create, user.user_id)
 
 

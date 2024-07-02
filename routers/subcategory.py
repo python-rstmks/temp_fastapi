@@ -6,6 +6,7 @@ from cruds import subcategory as subcategory_cruds, auth as auth_cruds
 from schemas.subcategory import SubCategoryResponse, SubCategoryUpdate, SubCategoryCreate
 from schemas.auth import DecodedToken
 from database import get_db
+from cruds import category as category_cruds
 
 
 DbDependency = Annotated[Session, Depends(get_db)]
@@ -24,10 +25,10 @@ async def find_all(db: DbDependency):
 
 @router.get("/{id}", response_model=SubCategoryResponse, status_code=status.HTTP_200_OK)
 async def find_by_id(db: DbDependency, user: UserDependency, id: int = Path(gt=0)):
-    found_item = subcategory_cruds.find_by_id(db, id, user.user_id)
-    if not found_item:
+    found_subcategory = subcategory_cruds.find_by_id(db, id, user.user_id)
+    if not found_subcategory:
         raise HTTPException(status_code=404, detail="SubCategory not found")
-    return found_item
+    return found_subcategory
 
 @router.get("/categories/{category_id}", response_model=list[SubCategoryResponse], status_code=status.HTTP_200_OK)
 async def find_all_in_category(db: DbDependency, user:UserDependency, category_id: int = Path(gt=0)):
@@ -41,8 +42,10 @@ async def find_by_name(
 
 
 @router.post("{category_id}", response_model=SubCategoryResponse, status_code=status.HTTP_201_CREATED)
-# async def create(db: DbDependency, category_id: int, user: UserDependency, subcategory_create: SubCategoryCreate):
 async def create(db: DbDependency, category_id: int, subcategory_create: SubCategoryCreate):
+    found_category = category_cruds.find_by_id(db, category_id)
+    if not found_category:
+        raise HTTPException(status_code=404, detail="Category not found")
     return subcategory_cruds.create(db, subcategory_create, category_id)
 
 
