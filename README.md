@@ -3,23 +3,28 @@ source fleamarket_venv/bin/activate
 pip install -r requirements.txt
 ```
 
+[step1]
 uvicorn main:app --reload
+
+[step2]
 localhost:8000/docs
 にアクセス
 
+[step3]
 alembic revision --autogenerate -m "Create user tables"
 
+[step4]
 alembic revision --autogenerate -m "Add foreign key"
 
+[step5]
 alembic upgrade head
 
-=========
-### routers directory vs cruds directory
+## routers directory vs cruds directory
 
-crudsフォルダのファイル
+### crudsフォルダのファイル
 このファイル内の関数は、主にデータベースに対する直接の操作を行います。SQLAlchemyセッションを使用してデータベースとやり取りし、データの作成、読み取り、更新、削除（CRUD）を実装しています。
 
-routersフォルダのファイル
+### routersフォルダのファイル
 
 routers/item.py
 このファイルは、APIエンドポイントを定義し、HTTPリクエストを処理するためのルートハンドラーを提供します。具体的には、以下の操作が含まれます：
@@ -33,16 +38,17 @@ find_by_name: GETリクエストを処理し、指定された名前を含むア
 
 
 ====================
+
 schemas.py ファイルの目的は、Pydantic を使用してデータバリデーションとデータ構造の定義を行うことです（静的型付け言語のようにするためのもの（
 models.py は　modelの定義
 
 
 ====================
+
 https://jwt.io/
 
 
-====================
-### Item テーブル定義書
+# Item テーブル定義書
 
 | 列名          | データ型          | NULL許容 | デフォルト値     | 説明/制約                                      |
 |---------------|------------------|----------|-----------------|------------------------------------------------|
@@ -76,3 +82,8 @@ https://jwt.io/
 |-----------------|-----------|------------------------------|-------------|
 | subcategory_id  | Integer   | Primary Key, Foreign Key     | Identifies the subcategory associated with a question. References `subcategories.id`. |
 | question_id     | Integer   | Primary Key, Foreign Key     | Identifies the question associated with a subcategory. References `questions.id`. |
+
+# 機能
+fastapi pagination
+7件づつcategoryを出す。
+
