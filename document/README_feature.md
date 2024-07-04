@@ -5,7 +5,7 @@
 
 
 <details>
-<summary>edit-question-table</summary>
+<summary><h2>edit-question-table</h2></summary>
 
 priority: high<br>
 ***branch-name: feature/edit-question-table***
