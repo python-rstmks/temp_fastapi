@@ -7,7 +7,7 @@ from models import SubCategory
 def find_all(db: Session):
     return db.query(SubCategory).all()
 
-def find_all_in_category(db: Session, category_id: int):
+def find_all_subcategories_in_category(db: Session, category_id: int):
     query = select(SubCategory).where(SubCategory.category_id == category_id)
     return db.execute(query).scalars().all()
 
