@@ -1,57 +1,29 @@
 # タスクブランチ
 
-<!-- ## edit-question-table -->
-
-
-
 <details>
 <summary><h2>edit-question-table</h2></summary>
 
 priority: high<br>
 ***branch-name: feature/edit-question-table***
 
+正解したかのフラグをつける。<br>
+column_name: is_correct
+
+</details>
+
+<details>
+<summary><h2>pagination</h2></summary>
+
+priority: high<br>
+***branch-name: feature/pagination***
+
+カテゴリをページネーションで表示する。7件。
 
 </details>
 
 
 
-
-
-正解したかのフラグをつける。
-column_name:
-
-## subcategoryCreate 
-***branch-name: feature/subcategory-create***
-<hr/>
-
-HOMEのカテゴリの下にプラスボタンを置いてそれをクリックするとinputボックスが出現して入力できる仕組みにする。
-
-
-## subcategory page
-***branch-name: feature/subcategory-page***
-
-紐づいた問題を表示する。<br>
-問題は全件取得する。
-
-<hr/>
-
-## category search
-***branch-name: feature/search-category***
-
-部分一致検索
-
-一旦表示されているページネーションのカテゴリをすべてcategoryListから削除して、
-部分検索に一致するカテゴリのみを表示する。
-
-検索ボックスを空にすると再びページネーションに基づくcategoryが表示される。
-
-<hr/>
-
-## subcategory search
-***branch-name: feature/search-subcategory***
-
 ## 問題出題画面
-***branch-name: feature/ask-question***
 
 問題作成初期画面において<br>
 [1]ランダムで出題するか、<br>
@@ -60,22 +32,29 @@ HOMEのカテゴリの下にプラスボタンを置いてそれをクリック�
 
 出題される問題の数をinputタグnumberで選べるようにする。
 <br>
-「問題を出題する」ボタンをクリックすると同時にサーバにフラグ付きのリクエストを送信して、問題をデータのレスポンスをもらう。
 
-問題を一問解いて次の問題に移ると同時に、正解か不正解のフラグをサーバに送信する。
+
+フロント側で問題を一問解いて次の問題に移ると同時に、正解か不正解のフラグをサーバに送信する。
 <br>
-50問解ききる前にやめてしまう可能性があるため、まとめて正解不正解のフラグを送信しない。
+20問解ききる前にやめてしまう可能性があるため、まとめて正解不正解のフラグを送信しない。
+
+「問題を出題する」ボタンをクリックすると同時にサーバにフラグ1（ランダムかカテゴリ選択式）とフラグ2（不正解の問題からのみ出題する or 正解不正解の問題に関係なく出題する）とカテゴリidのarray（カテゴリ選択式の場合は）を含んだリクエストを送信して、questionsデータのレスポンスをもらう。
 
 #### カテゴリで絞って問題を出題する
 ***branch-name: feature/ask-question-by-category***  ← feature/ask-questionブランチから派生
 
-問題作成はバックエンドが行うのでapi叩くだけ。
+where category_id = 
+
+でとってくる。
 
 
 #### ランダムに問題を出題する
 ***branch-name: feature/ask-question-random***  ← feature/ask-questionブランチから派生
 
-問題作成はバックエンドが行うのでapi叩くだけ。
+questionsテーブルから50問をとってくる。
+
+＝＝＝＝＝＝＝＝＝＝＝
+
 
 
 
