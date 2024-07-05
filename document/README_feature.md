@@ -1,13 +1,14 @@
 # タスクブランチ
 
 <details>
-<summary><h2>edit-question-table</h2></summary>
+<summary><h2>add question-table</h2></summary>
 
 priority: high<br>
 ***branch-name: feature/edit-question-table***
 
 正解したかのフラグをつける。<br>
 column_name: is_correct
+column_name: category_id
 
 </details>
 
