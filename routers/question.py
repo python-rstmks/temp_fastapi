@@ -42,9 +42,9 @@ async def find_by_name(
     return question_cruds.find_by_name(db, name)
 
 
-@router.post("/{category_id}", response_model=QuestionResponse, status_code=status.HTTP_201_CREATED)
+@router.post("/{category_id}/{subcategory_id}", response_model=QuestionResponse, status_code=status.HTTP_201_CREATED)
 async def create(db: DbDependency, category_id: int, question_create: QuestionCreate):
-    found_category = category_cruds.find_by_id(db, category_id)
+    found_category = category_cruds.find_by_id(db, category_id, subcategory_id)
     if not found_category:
         raise HTTPException(status_code=404, detail="Category not found")
     return question_cruds.create(db, question_create, category_id)

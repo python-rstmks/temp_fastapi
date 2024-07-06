@@ -25,8 +25,8 @@ def find_by_id(db: Session, id: int):
 def find_by_name(db: Session, name: str):
     return db.query(Question).filter(Question.name.like(f"%{name}%")).all()
 
-def create(db: Session, question_create: QuestionCreate, category_id: int, question_id: int):
-    new_question = Question(**question_create.model_dump(), category_id=category_id, question_id=question_id)
+def create(db: Session, question_create: QuestionCreate, category_id: int, subcategory_id: int):
+    new_question = Question(**question_create.model_dump(), category_id=category_id, subcategory_id=subcategory_id)
     db.add(new_question)
     db.commit()
     return new_question
