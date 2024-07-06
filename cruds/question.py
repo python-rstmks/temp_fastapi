@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 from schemas.question import QuestionCreate, QuestionUpdate
-from models import Question, CategoryQuestion, SubCategoryQuestion
+from models import Question, SubCategoryQuestion, CategoryQuestion
 
 
 
@@ -25,11 +25,29 @@ def find_by_id(db: Session, id: int):
 def find_by_name(db: Session, name: str):
     return db.query(Question).filter(Question.name.like(f"%{name}%")).all()
 
-def create(db: Session, question_create: QuestionCreate, category_id: int, subcategory_id: int):
-    new_question = Question(**question_create.model_dump(), category_id=category_id, subcategory_id=subcategory_id)
-    db.add(new_question)
-    db.commit()
-    return new_question
+from sqlalchemy.orm import Session
+from sqlalchemy.exc import SQLAlchemyError
+
+def create(db: Session, question_create: QuestionCreate):
+    try:
+        db.begin()
+
+        new_question = Question(**question_create.model_dump())
+        db.add(new_question)
+        db.commit()
+
+        new_category_question = CategoryQuestion(category_id=question_create.category_id, question_id=new_question.id)
+        new_subcategory_question = SubCategoryQuestion(subcategory_id=question_create.subcategory_id, question_id=new_question.id)
+        db.add(new_category_question)
+        db.add(new_subcategory_question)
+        
+        db.commit()
+        
+        return new_question
+    except SQLAlchemyError as e:
+        db.rollback()
+        raise e
+
 
 
 def update(db: Session, id: int, question_update: QuestionUpdate, category_id: int, question_id: int):

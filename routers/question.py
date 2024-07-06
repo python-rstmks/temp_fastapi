@@ -6,7 +6,7 @@ from cruds import question as question_cruds, auth as auth_cruds
 from schemas.question import QuestionResponse, QuestionUpdate, QuestionCreate
 from schemas.auth import DecodedToken
 from database import get_db
-from cruds import question as question_cruds, category as category_cruds
+from cruds import question as question_cruds, category as category_cruds, subcategory as subcategory_cruds
 
 
 DbDependency = Annotated[Session, Depends(get_db)]
@@ -42,12 +42,16 @@ async def find_by_name(
     return question_cruds.find_by_name(db, name)
 
 
-@router.post("/{category_id}/{subcategory_id}", response_model=QuestionResponse, status_code=status.HTTP_201_CREATED)
-async def create(db: DbDependency, category_id: int, question_create: QuestionCreate):
-    found_category = category_cruds.find_by_id(db, category_id, subcategory_id)
+@router.post("", response_model=QuestionResponse, status_code=status.HTTP_201_CREATED)
+async def create(db: DbDependency, question_create: QuestionCreate):
+    found_category = category_cruds.find_by_id(db, question_create.category_id, question_create.subcategory_id)
     if not found_category:
         raise HTTPException(status_code=404, detail="Category not found")
-    return question_cruds.create(db, question_create, category_id)
+    
+    found_subcategory = subcategory_cruds.find_by_id(db, question_create.subcategory_id)
+    if not found_subcategory:
+        raise HTTPException(status_code=404, detail="Category not found")
+    return question_cruds.create(db, question_create)
 
 
 @router.put("/{id}", response_model=QuestionResponse, status_code=status.HTTP_200_OK)

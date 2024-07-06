@@ -6,9 +6,11 @@ from typing import List
 from datetime import datetime
 
 class QuestionCreate(BaseModel):
+    
     problem: str = Field(min_length=2, max_length=20, examples=["列志向データベースの強みを説明せよ"])
     answer: List[str] = Field(..., example=["Answer1", "Answer2"])
-    is_correct: bool = Field(default=False, example=False)
+    category_id: int = Field(gt=0, example=1)
+    subcategory_id: int = Field(gt=0, example=1)
 
 class QuestionUpdate(BaseModel):
     problem: str = Field(min_length=2, max_length=20, examples=["列志向データベースの強みを説明せよ"])
