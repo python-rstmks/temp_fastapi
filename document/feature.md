@@ -51,6 +51,7 @@ where category_id =
 #### ランダムに問題を出題する
 ***branch-name: feature/ask-question-random***  ← feature/ask-questionブランチから派生
 
+max_question_idより小さい乱数を50個作成して、それを配列に格納。
 questionsテーブルから50問をとってくる。
 
 ＝＝＝＝＝＝＝＝＝＝＝
