@@ -12,8 +12,8 @@ def find_all_subcategories_in_category(db: Session, category_id: int):
     return db.execute(query).scalars().all()
 
 def find_by_id(db: Session, id: int):
-    # return db.query(SubCategory).filter(SubCategory.id == id).filter(SubCategory.user_id == user_id).first()
-    pass
+    query = select(SubCategory).where(SubCategory.id == id)
+    return db.execute(query).scalars().first()
 
 def find_by_name(db: Session, name: str):
     return db.query(SubCategory).filter(SubCategory.name.like(f"%{name}%")).all()
@@ -28,7 +28,7 @@ def create(db: Session, subcategory_create: SubCategoryCreate, category_id: int)
 
 
 def update(db: Session, id: int, subcategory_update: SubCategoryUpdate, user_id: int):
-    subcategory = find_by_id(db, id, user_id)
+    subcategory = find_by_id(db, id)
     if subcategory is None:
         return None
 

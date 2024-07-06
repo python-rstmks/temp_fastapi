@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, Enum, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, Enum, DateTime, ForeignKey, ARRAY, Boolean
 from sqlalchemy.orm import relationship
 from database import Base
 from schemas import item
@@ -37,6 +37,7 @@ class Category(Base):
 
     user = relationship("User", back_populates="categories")
     subcategories = relationship("SubCategory", back_populates="category")
+    questions = relationship("CategoryQuestion", back_populates="category")
     
 class SubCategory(Base):
     __tablename__ = "subcategories"
@@ -52,6 +53,7 @@ class SubCategory(Base):
     # category = relationship("Category", back_populates="subcategory")
     # ↓なぜsubcategoriesと複数形なのか
     category = relationship("Category", back_populates="subcategories")
+    
     questions = relationship("SubCategoryQuestion", back_populates="subcategory")
 
     
@@ -60,11 +62,13 @@ class Question(Base):
 
     id = Column(Integer, primary_key=True)
     problem = Column(String, nullable=False)
-    answer = Column(String, nullable=False)
+    answer = Column(ARRAY(String), nullable=False)
+    is_correct = Column(Boolean, nullable=False, default=False)
     created_at = Column(DateTime, default=datetime.now())
     updated_at = Column(DateTime, default=datetime.now(), onupdate=datetime.now())
     
     subcategories = relationship("SubCategoryQuestion", back_populates="question")
+    categories = relationship("SubCategoryQuestion", back_populates="question")
     
 class SubCategoryQuestion(Base):
     __tablename__ = "subcategory_question"
@@ -76,6 +80,17 @@ class SubCategoryQuestion(Base):
     )
     subcategory = relationship("SubCategory", back_populates="questions")
     question = relationship("Question", back_populates="subcategories")
+    
+class CategoryQuestion(Base):
+    __tablename__ = "category_question"
+    category_id = Column(
+        Integer, ForeignKey("categories.id"), primary_key=True
+    )
+    question_id = Column(
+        Integer, ForeignKey("questions.id"), primary_key=True
+    )
+    category = relationship("Category", back_populates="questions")
+    question = relationship("Question", back_populates="categories")
 
 
 class User(Base):
