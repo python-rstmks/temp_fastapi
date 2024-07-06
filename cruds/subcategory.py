@@ -18,10 +18,8 @@ def find_by_id(db: Session, id: int):
 def find_by_name(db: Session, name: str):
     return db.query(SubCategory).filter(SubCategory.name.like(f"%{name}%")).all()
 
-def create(db: Session, subcategory_create: SubCategoryCreate, category_id: int):
-    new_subcategory = SubCategory(**subcategory_create.model_dump(), category_id=category_id)
-    print(new_subcategory)
-    print(54321)
+def create(db: Session, subcategory_create: SubCategoryCreate):
+    new_subcategory = SubCategory(**subcategory_create.model_dump())
     db.add(new_subcategory)
     db.commit()
     return new_subcategory
