@@ -68,7 +68,7 @@ class Question(Base):
     updated_at = Column(DateTime, default=datetime.now(), onupdate=datetime.now())
     
     subcategories = relationship("SubCategoryQuestion", back_populates="question")
-    categories = relationship("SubCategoryQuestion", back_populates="question")
+    categories = relationship("CategoryQuestion", back_populates="question")
     
 class SubCategoryQuestion(Base):
     __tablename__ = "subcategory_question"
