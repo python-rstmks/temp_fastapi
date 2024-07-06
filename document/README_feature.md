@@ -8,7 +8,6 @@ priority: high<br>
 
 正解したかのフラグをつける。<br>
 column_name: is_correct
-column_name: category_id
 
 </details>
 
