@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import select
 from schemas.question import QuestionCreate, QuestionUpdate
 from models import Question, SubCategoryQuestion, CategoryQuestion
+from sqlalchemy.exc import SQLAlchemyError
 
 
 
@@ -25,14 +26,13 @@ def find_by_id(db: Session, id: int):
 def find_by_name(db: Session, name: str):
     return db.query(Question).filter(Question.name.like(f"%{name}%")).all()
 
-from sqlalchemy.orm import Session
-from sqlalchemy.exc import SQLAlchemyError
 
 def create(db: Session, question_create: QuestionCreate):
     try:
-        db.begin()
-
-        new_question = Question(**question_create.model_dump())
+        question_data = question_create.model_dump(exclude={"category_id", "subcategory_id"})
+        print(question_data)
+        print('ohagi')
+        new_question = Question(**question_data)
         db.add(new_question)
         db.commit()
 
