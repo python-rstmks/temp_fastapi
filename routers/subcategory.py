@@ -24,8 +24,13 @@ async def find_all(db: DbDependency):
 
 
 @router.get("/{id}", response_model=SubCategoryResponse, status_code=status.HTTP_200_OK)
-async def find_by_id(db: DbDependency, user: UserDependency, id: int = Path(gt=0)):
-    found_subcategory = subcategory_cruds.find_by_id(db, id, user.user_id)
+async def find_by_id(
+    db: DbDependency, 
+    # user: UserDependency, 
+    id: int = Path(gt=0)
+):
+    # found_subcategory = subcategory_cruds.find_by_id(db, id, user.user_id)
+    found_subcategory = subcategory_cruds.find_by_id(db, id)
     if not found_subcategory:
         raise HTTPException(status_code=404, detail="SubCategory not found")
     return found_subcategory
@@ -55,7 +60,7 @@ async def create(db: DbDependency, subcategory_create: SubCategoryCreate):
 @router.put("/{id}", response_model=SubCategoryResponse, status_code=status.HTTP_200_OK)
 async def update(
     db: DbDependency,
-    user: UserDependency,
+    # user: UserDependency,
     subcategory_update: SubCategoryUpdate,
     id: int = Path(gt=0),
 ):
@@ -66,7 +71,11 @@ async def update(
 
 
 @router.delete("/{id}", response_model=SubCategoryResponse, status_code=status.HTTP_200_OK)
-async def delete(db: DbDependency, user: UserDependency, id: int = Path(gt=0)):
+async def delete(
+    db: DbDependency,
+    # user: UserDependency,
+    id: int = Path(gt=0)
+):
     deleted_item = subcategory_cruds.delete(db, id, user.user_id)
     if not deleted_item:
         raise HTTPException(status_code=404, detail="Item not deleted")
