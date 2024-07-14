@@ -19,6 +19,10 @@ def find_all_in_category(db: Session, category_id: int):
     query = select(Question).where(CategoryQuestion.category_id == category_id)
     return db.execute(query).scalars().all()
 
+def find_all_in_subcategory(db: Session, subcategory_id: int):
+    query = select(Question).where(SubCategoryQuestion.subcategory_id == subcategory_id)
+    return db.execute(query).scalars().all()
+
 def find_by_id(db: Session, id: int):
     query = select(Question).where(Question.id == id)
     return db.execute(query).scalars().first()

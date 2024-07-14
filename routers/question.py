@@ -32,8 +32,14 @@ async def find_by_id(db: DbDependency, user: UserDependency, id: int = Path(gt=0
 
 @router.get("/category_id/{category_id}", response_model=list[QuestionResponse], status_code=status.HTTP_200_OK)
 # async def find_all_questions_in_category(db: DbDependency, user:UserDependency, category_id: int = Path(gt=0)):
-async def find_all_questions_in_category(db: DbDependency, category_id: int = Path(gt=0)):
-    return question_cruds.find_all_questions_in_category(db, category_id)
+async def find_all_in_category(db: DbDependency, category_id: int = Path(gt=0)):
+    return question_cruds.find_all_in_category(db, category_id)
+
+@router.get("/subcategory_id/{subcategory_id}", response_model=list[QuestionResponse], status_code=status.HTTP_200_OK)
+# async def find_all_questions_in_category(db: DbDependency, user:UserDependency, category_id: int = Path(gt=0)):
+async def find_all_in_subcategory(db: DbDependency, subcategory_id: int = Path(gt=0)):
+    return question_cruds.find_all_in_subcategory(db, subcategory_id)
+
 
 @router.get("/", response_model=list[QuestionResponse], status_code=status.HTTP_200_OK)
 async def find_by_name(
