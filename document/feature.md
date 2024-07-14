@@ -12,6 +12,17 @@ column_name: is_correct
 </details>
 
 <details>
+<summary><h2>サブカテゴリidでquestionを取得</h2></summary>
+
+priority: high<br>
+***branch-name: feat/get_question_by_subcategory_id***
+
+カテゴリをページネーションで表示する。7件。
+
+</details>
+
+
+<details>
 <summary><h2>pagination</h2></summary>
 
 priority: high<br>
