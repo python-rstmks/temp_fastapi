@@ -1,10 +1,18 @@
 # タスクブランチ
 
 <details>
+<summary><h2>post question functionality</h2></summary>
+
+priority: high<br>
+***branch-name: feat/post-question***
+
+</details>
+
+<details>
 <summary><h2>add question-table</h2></summary>
 
 priority: high<br>
-***branch-name: feature/edit-question-table***
+***branch-name: feat/edit-question-table***
 
 正解したかのフラグをつける。<br>
 column_name: is_correct
@@ -52,7 +60,7 @@ priority: high<br>
 「問題を出題する」ボタンをクリックすると同時にサーバにフラグ1（ランダムかカテゴリ選択式）とフラグ2（不正解の問題からのみ出題する or 正解不正解の問題に関係なく出題する）とカテゴリidのarray（カテゴリ選択式の場合は）を含んだリクエストを送信して、questionsデータのレスポンスをもらう。
 
 #### カテゴリで絞って問題を出題する
-***branch-name: feature/ask-question-by-category***  ← feature/ask-questionブランチから派生
+***branch-name: feat/ask-question-by-category***  ← feature/ask-questionブランチから派生
 
 where category_id = 
 
@@ -60,7 +68,7 @@ where category_id =
 
 
 #### ランダムに問題を出題する
-***branch-name: feature/ask-question-random***  ← feature/ask-questionブランチから派生
+***branch-name: feat/ask-question-random***  ← feature/ask-questionブランチから派生
 
 max_question_idより小さい乱数を50個作成して、それを配列に格納。
 questionsテーブルから50問をとってくる。
