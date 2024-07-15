@@ -1,33 +1,5 @@
 # タスクブランチ
 
-<details>
-<summary><h2>post question functionality</h2></summary>
-
-priority: high<br>
-***branch-name: feat/post-question***
-
-</details>
-
-<details>
-<summary><h2>add question-table</h2></summary>
-
-priority: high<br>
-***branch-name: feat/edit-question-table***
-
-正解したかのフラグをつける。<br>
-column_name: is_correct
-
-</details>
-
-<details>
-<summary><h2>サブカテゴリidでquestionを取得</h2></summary>
-
-priority: high<br>
-***branch-name: feat/get_question_by_subcategory_id***
-
-カテゴリをページネーションで表示する。7件。
-
-</details>
 
 
 <details>
