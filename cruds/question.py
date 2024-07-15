@@ -20,7 +20,9 @@ def find_all_in_category(db: Session, category_id: int):
     return db.execute(query).scalars().all()
 
 def find_all_in_subcategory(db: Session, subcategory_id: int):
-    query = select(Question).where(SubCategoryQuestion.subcategory_id == subcategory_id)
+    query1 = select(SubCategoryQuestion.question_id).where(SubCategoryQuestion.subcategory_id == subcategory_id)
+    question_ids = db.execute(query1).scalars().all()
+    query = select(Question).where(Question.id.in_(question_ids))
     return db.execute(query).scalars().all()
 
 def find_by_id(db: Session, id: int):
@@ -34,8 +36,6 @@ def find_by_name(db: Session, name: str):
 def create(db: Session, question_create: QuestionCreate):
     try:
         question_data = question_create.model_dump(exclude={"category_id", "subcategory_id"})
-        print(question_data)
-        print('ohagi')
         new_question = Question(**question_data)
         db.add(new_question)
         db.commit()
