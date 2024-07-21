@@ -29,8 +29,6 @@ class Category(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
-    created_at = Column(DateTime, default=datetime.now())
-    updated_at = Column(DateTime, default=datetime.now(), onupdate=datetime.now())
     user_id = Column(
         Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
     )
@@ -44,7 +42,6 @@ class SubCategory(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
-    created_at = Column(DateTime, default=datetime.now())
     updated_at = Column(DateTime, default=datetime.now(), onupdate=datetime.now())
     category_id = Column(
         Integer, ForeignKey("categories.id", ondelete="CASCADE"), nullable=False
@@ -64,7 +61,6 @@ class Question(Base):
     problem = Column(String, nullable=False)
     answer = Column(ARRAY(String), nullable=False)
     is_correct = Column(Boolean, nullable=False, default=False)
-    created_at = Column(DateTime, default=datetime.now())
     updated_at = Column(DateTime, default=datetime.now(), onupdate=datetime.now())
     
     subcategories = relationship("SubCategoryQuestion", back_populates="question")
