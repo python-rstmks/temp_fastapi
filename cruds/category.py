@@ -3,9 +3,14 @@ from sqlalchemy import select
 # from schemas import category
 from schemas.category import CategoryCreate
 from models import Category
+from fastapi_pagination import Page, add_pagination, paginate
 
 
 def find_all(db: Session):
+    query = select(Category)
+    return db.execute(query).scalars().all()
+
+def find_pagination(db: Session):
     query = select(Category)
     return db.execute(query).scalars().all()
 

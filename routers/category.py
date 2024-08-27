@@ -6,6 +6,8 @@ from cruds import category as category_curds, auth as auth_cruds
 from schemas.category import CategoryResponse, CategoryCreate
 from schemas import auth
 from database import get_db
+from fastapi_pagination import Page, add_pagination, paginate, LimitOffsetPage
+from fastapi import Query
 
 
 DbDependency = Annotated[Session, Depends(get_db)]
@@ -17,8 +19,19 @@ router = APIRouter(prefix="/categories", tags=["Categories"])
 # tags は、FastAPIでAPIルーターやエンドポイントにメタデータを追加するために使用されるオプションの引数です。これにより、APIドキュメント（例えば、Swagger UI）においてAPIエンドポイントをカテゴリごとにグループ化することができます。
 
 @router.get("", response_model=list[CategoryResponse], status_code=status.HTTP_200_OK)
-async def find_all(db: DbDependency):
-    return category_curds.find_all(db)
+async def find_all(
+    db: DbDependency,
+    # skip: int = 0,
+    skip: int = Query(0, ge=0),
+    limit: int = 7
+    ):
+# async def find_pagination(db: DbDependency) -> LimitOffsetPage[CategoryResponse]:
+    # results = category_curds.find_all(db)
+    # return paginate(results)
+    return (category_curds.find_all(db))[skip : skip + limit]
+    # return (category_curds.find_all(db))[7 : 14]
+
+    # return (category_curds.find_all(db))
 
 
 @router.get("/{id}", response_model=CategoryResponse, status_code=status.HTTP_200_OK)

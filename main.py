@@ -2,6 +2,7 @@ import time
 from fastapi import FastAPI, Request
 from routers import item, auth, category, subcategory, question
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi_pagination import Page, add_pagination, paginate
 
 
 app = FastAPI()
@@ -27,3 +28,4 @@ app.include_router(auth.router)
 app.include_router(category.router)
 app.include_router(subcategory.router)
 app.include_router(question.router)
+add_pagination(app)
