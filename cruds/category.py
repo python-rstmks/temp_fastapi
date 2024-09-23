@@ -31,3 +31,14 @@ def create(db: Session, category_create: CategoryCreate):
     db.commit()
     return new_category
 
+# ページネーションのためのページ数を返す
+# 100件のカテゴリがある場合、1ページあたり7件表示する場合、ページ数は(100/17)+ 1 = 15ページになる
+
+# limitはconfigから取得したい。
+def page_count(db: Session):
+    query = select(Category)
+    count = db.execute(query).scalars().count()
+    
+    print(f'countは{count}です')
+    return count // limit + 1
+

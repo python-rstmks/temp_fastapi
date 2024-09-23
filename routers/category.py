@@ -25,10 +25,12 @@ async def find_all(
     skip: int = Query(0, ge=0),
     limit: int = 7
     ):
+    return (category_curds.find_all(db))[skip : skip + limit]
+
+    
 # async def find_pagination(db: DbDependency) -> LimitOffsetPage[CategoryResponse]:
     # results = category_curds.find_all(db)
     # return paginate(results)
-    return (category_curds.find_all(db))[skip : skip + limit]
     # return (category_curds.find_all(db))[7 : 14]
 
     # return (category_curds.find_all(db))
@@ -55,3 +57,7 @@ async def create(db: DbDependency, category_create: CategoryCreate):
     # return category_curds.create(db, category_create, user.user_id)
     return category_curds.create(db, category_create)
 
+# page_count
+@router.get("/page_count", response_model=int, status_code=status.HTTP_200_OK)
+async def get_page_count(db: DbDependency):
+    return category_curds.get_page_count(db)
