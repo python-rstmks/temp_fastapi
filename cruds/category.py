@@ -31,3 +31,7 @@ def create(db: Session, category_create: CategoryCreate):
     db.commit()
     return new_category
 
+# ページネーション
+def get_page_count(db: Session):
+    query = select(Category)
+    return db.execute(query).scalars().count()

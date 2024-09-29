@@ -2,13 +2,36 @@
 
 
 
+
 <details>
-<summary><h2>pagination</h2></summary>
+<summary><h2>deleting subcategory</h2></summary>
 
 priority: high<br>
-***branch-name: feature/pagination***
+***branch-name: feature/delete-subcategory***
 
-カテゴリをページネーションで表示する。7件。
+サブカテゴリ画面にてサブカテゴリを削除（論理削除）
+
+</details>
+
+<details>
+<summary><h2>問題個別ページ</h2></summary>
+
+priority: high<br>
+***branch-name: feature/delete-subcategory***
+
+questionレコードのedit, deleteを行う。
+
+</details>
+
+
+
+<details>
+<summary><h2>edit question</h2></summary>
+
+priority: high<br>
+***branch-name: feature/edit-question***
+
+questionのタイトルとanswerを編集。
 
 </details>
 

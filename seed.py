@@ -5,6 +5,7 @@ from factory.alchemy import SQLAlchemyModelFactory
 from factory import Faker
 from config import get_settings
 
+# このpythonファイルを実行することで、カテゴリーテーブルにデータを追加することができる。
 
 SQLALCHEMY_DATABASE_URL = get_settings().sqlalchemy_database_url
 

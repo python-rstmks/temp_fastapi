@@ -6,7 +6,6 @@ from cruds import category as category_curds, auth as auth_cruds
 from schemas.category import CategoryResponse, CategoryCreate
 from schemas import auth
 from database import get_db
-from fastapi_pagination import Page, add_pagination, paginate, LimitOffsetPage
 from fastapi import Query
 
 
@@ -35,7 +34,7 @@ async def find_all(
 
 
 @router.get("/{id}", response_model=CategoryResponse, status_code=status.HTTP_200_OK)
-async def find_by_id(db: DbDependency, user: UserDependency, id: int = Path(gt=0)):
+async def find_by_id(db: DbDependency, user: UserDependency, id: int = Path(gt=0)): # type: ignore
     found_category = category_curds.find_by_id(db, id, user.user_id)
     if not found_category:
         raise HTTPException(status_code=404, detail="Category not found")
@@ -55,3 +54,9 @@ async def create(db: DbDependency, category_create: CategoryCreate):
     # return category_curds.create(db, category_create, user.user_id)
     return category_curds.create(db, category_create)
 
+
+# page_countのルーティング
+@router.get("/page_count", response_model=int, status_code=status.HTTP_200_OK)
+async def get_page_count(db: DbDependency):
+    print(888899999)
+    return category_curds.get_page_count(db)
