@@ -11,8 +11,6 @@ from cruds import question as question_cruds, category as category_cruds, subcat
 
 DbDependency = Annotated[Session, Depends(get_db)]
 
-UserDependency = Annotated[DecodedToken, Depends(auth_cruds.get_current_user)]
-
 # 
 router = APIRouter(prefix="/questions", tags=["Questions"])
 
@@ -24,19 +22,17 @@ async def find_all(db: DbDependency):
 
 
 @router.get("/{id}", response_model=QuestionResponse, status_code=status.HTTP_200_OK)
-async def find_by_id(db: DbDependency, user: UserDependency, id: int = Path(gt=0)):
-    found_question = question_cruds.find_by_id(db, id, user.user_id)
+async def find_by_id(db: DbDependency, id: int = Path(gt=0)):
+    found_question = question_cruds.find_by_id(db, id)
     if not found_question:
         raise HTTPException(status_code=404, detail="Question not found")
     return found_question
 
 @router.get("/category_id/{category_id}", response_model=list[QuestionResponse], status_code=status.HTTP_200_OK)
-# async def find_all_questions_in_category(db: DbDependency, user:UserDependency, category_id: int = Path(gt=0)):
 async def find_all_in_category(db: DbDependency, category_id: int = Path(gt=0)):
     return question_cruds.find_all_in_category(db, category_id)
 
 @router.get("/subcategory_id/{subcategory_id}", response_model=list[QuestionResponse], status_code=status.HTTP_200_OK)
-# async def find_all_questions_in_category(db: DbDependency, user:UserDependency, category_id: int = Path(gt=0)):
 async def find_all_in_subcategory(db: DbDependency, subcategory_id: int = Path(gt=0)):
     return question_cruds.find_all_in_subcategory(db, subcategory_id)
 
@@ -63,7 +59,6 @@ async def create(db: DbDependency, question_create: QuestionCreate):
 @router.put("/{id}", response_model=QuestionResponse, status_code=status.HTTP_200_OK)
 async def update(
     db: DbDependency,
-    # user: UserDependency,
     question_update: QuestionUpdate,
     id: int = Path(gt=0),
 ):
