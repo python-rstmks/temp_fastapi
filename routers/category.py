@@ -11,11 +11,12 @@ from fastapi import Query
 
 DbDependency = Annotated[Session, Depends(get_db)]
 
-UserDependency = Annotated[auth.DecodedToken, Depends(auth_cruds.get_current_user)]
+# UserDependency = Annotated[auth.DecodedToken, Depends(auth_cruds.get_current_user)]
 
 router = APIRouter(prefix="/categories", tags=["Categories"])
 
 # tags は、FastAPIでAPIルーターやエンドポイントにメタデータを追加するために使用されるオプションの引数です。これにより、APIドキュメント（例えば、Swagger UI）においてAPIエンドポイントをカテゴリごとにグループ化することができます。
+
 
 @router.get("", response_model=list[CategoryResponse], status_code=status.HTTP_200_OK)
 async def find_all(
@@ -24,15 +25,27 @@ async def find_all(
     skip: int = Query(0, ge=0),
     limit: int = 7
     ):
-# async def find_pagination(db: DbDependency) -> LimitOffsetPage[CategoryResponse]:
-    # results = category_curds.find_all(db)
-    # return paginate(results)
     return (category_curds.find_all(db))[skip : skip + limit]
-    # return (category_curds.find_all(db))[7 : 14]
-
-    # return (category_curds.find_all(db))
 
 
+    return (category_curds.find_all(db))[skip : skip + limit]
+
+# page_countのルーティング
+@router.get("/page_count", response_model=int, status_code=status.HTTP_200_OK)
+async def get_page_count(db: DbDependency):
+    return category_curds.get_page_count(db)
+
+
+@router.get("/alla2", response_model=list[CategoryResponse], status_code=status.HTTP_200_OK)
+async def find_all(
+    db: DbDependency,
+    skip: int = Query(0, ge=0),
+    limit: int = 7
+    ):
+    print(123)
+    return (category_curds.find_all(db))[skip : skip + limit]
+
+# カテゴリをIDで取得
 @router.get("/{id}", response_model=CategoryResponse, status_code=status.HTTP_200_OK)
 async def find_by_id(db: DbDependency, user: UserDependency, id: int = Path(gt=0)): # type: ignore
     found_category = category_curds.find_by_id(db, id, user.user_id)

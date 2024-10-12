@@ -4,6 +4,8 @@ from sqlalchemy import select
 from schemas.category import CategoryCreate
 from models import Category
 from fastapi_pagination import Page, add_pagination, paginate
+from sqlalchemy import func
+
 
 
 def find_all(db: Session):
@@ -33,5 +35,12 @@ def create(db: Session, category_create: CategoryCreate):
 
 # ページネーション
 def get_page_count(db: Session):
-    query = select(Category)
-    return db.execute(query).scalars().count()
+
+    count_page = db.scalar(
+                    select(func.count()).
+                    select_from(Category)
+                )
+    
+    print(count_page)
+    return count_page
+
