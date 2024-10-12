@@ -41,7 +41,7 @@ def get_page_count(db: Session):
                     select(func.count()).
                     select_from(Category)
                 )
-    
+    count_page = count_page // 7 + 1
     print(count_page)
     return count_page
 

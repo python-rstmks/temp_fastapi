@@ -11,7 +11,7 @@ from fastapi import Query
 
 DbDependency = Annotated[Session, Depends(get_db)]
 
-# UserDependency = Annotated[auth.DecodedToken, Depends(auth_cruds.get_current_user)]
+UserDependency = Annotated[auth.DecodedToken, Depends(auth_cruds.get_current_user)]
 
 router = APIRouter(prefix="/categories", tags=["Categories"])
 
@@ -36,13 +36,12 @@ async def get_page_count(db: DbDependency):
     return category_curds.get_page_count(db)
 
 
-@router.get("/alla2", response_model=list[CategoryResponse], status_code=status.HTTP_200_OK)
+@router.get("/all", response_model=list[CategoryResponse], status_code=status.HTTP_200_OK)
 async def find_all(
     db: DbDependency,
     skip: int = Query(0, ge=0),
     limit: int = 7
     ):
-    print(123)
     return (category_curds.find_all(db))[skip : skip + limit]
 
 # カテゴリをIDで取得
