@@ -44,6 +44,14 @@ async def find_all(
     ):
     return (category_curds.find_all(db))[skip : skip + limit]
 
+@router.get("/all_categories_with_questions", response_model=list[CategoryResponse], status_code=status.HTTP_200_OK)
+async def find_all(
+    db: DbDependency,
+    skip: int = Query(0, ge=0),
+    limit: int = 7
+    ):
+    return (category_curds.find_all_categories_with_questions(db))[skip : skip + limit]
+
 # カテゴリをIDで取得
 @router.get("/{id}", response_model=CategoryResponse, status_code=status.HTTP_200_OK)
 async def find_by_id(db: DbDependency, user: UserDependency, id: int = Path(gt=0)): # type: ignore

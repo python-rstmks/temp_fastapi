@@ -36,7 +36,6 @@ async def find_by_id(
     return found_subcategory
 
 @router.get("/category_id/{category_id}", response_model=list[SubCategoryResponse], status_code=status.HTTP_200_OK)
-# async def find_all_subcategories_in_category(db: DbDependency, user:UserDependency, category_id: int = Path(gt=0)):
 async def find_all_subcategories_in_category(db: DbDependency, category_id: int = Path(gt=0)):
     return subcategory_cruds.find_all_subcategories_in_category(db, category_id)
 

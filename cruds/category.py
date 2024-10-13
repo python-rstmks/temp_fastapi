@@ -44,3 +44,10 @@ def get_page_count(db: Session):
     print(count_page)
     return count_page
 
+def find_all_categories_with_questions(db: Session):
+    query = select(Category).join(Category.questions)
+    aaa = db.execute(query).scalars().all()
+    for i in aaa:
+        print(i.name)
+    return db.execute(query).scalars().all()
+
