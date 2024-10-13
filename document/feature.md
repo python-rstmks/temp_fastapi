@@ -1,6 +1,18 @@
 # タスクブランチ
 
 <details>
+<summary><h2>問題群の生成。</h2></summary>
+
+priority: high<br>
+***branch-name: feature/set-questions***
+
+リクエストから飛んできた条件をもとに問題群を生成する。
+
+
+
+</details>
+
+<details>
 <summary><h2>deleting subcategory</h2></summary>
 
 priority: high<br>
@@ -28,7 +40,7 @@ questionレコードのedit, deleteを行う。
 priority: high<br>
 ***branch-name: feature/edit-question***
 
-questionのタイトルとanswerを編集。
+questionのタイトルとanswerを編集できるようにする。
 
 </details>
 
