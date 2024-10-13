@@ -1,8 +1,5 @@
 # タスクブランチ
 
-
-
-
 <details>
 <summary><h2>deleting subcategory</h2></summary>
 
